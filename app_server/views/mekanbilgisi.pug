@@ -3,14 +3,14 @@ include fonksiyonlar/yildiz
 block content
   .row.page-header 
     .col-lg-12 
-      h1 mekanBaslik
+      h1 Starbucks
   .row  
     .col-xs-12.col-md-12 
       .row 
         .col-xs-12.col-sm-6   
           p.rating
             +puanOlustur(mekanDetay.puan)
-          p= mekanDetay.adres  
+          p #{mekanDetay.adres} 
           .panel.panel-primary 
             panel-heading 
               h2.panel-title Açılış Saatleri
