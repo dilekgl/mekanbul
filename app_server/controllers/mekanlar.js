@@ -30,16 +30,16 @@ const anaSayfa= function(req,res){
 const mekanBilgisi= function(req,res){
     res.render('mekanbilgisi',
     {
-    "baslik":"Mekan Bilgisi",
-    "makanBaslik":"Starbucks",
-    "mekanDetay":{
-        "ad":"Starbucks",
-        "puan":"3",
-        "adres":"Centrium Garden",
-        "imkanlar"  : ["kahve","çay","kek"], 
-        "koordinatlar":{
-            "enlem":"37.7",
-            "boylam":"30.5"
+      "baslik":"Mekan Bilgisi",
+      "makanBaslik":"Starbucks",
+      "mekanDetay":{
+          "ad":"Starbucks",
+          "puan":"3",
+          "adres":"Centrium Garden",
+          "imkanlar"  : ["kahve","çay","kek"], 
+          "koordinatlar":{
+              "enlem":"37.7",
+              "boylam":"30.5"
          },
         "saatler":[
             {
