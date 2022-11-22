@@ -1,6 +1,4 @@
-var express = require('express');
-var router = express.Router();
-const anaSayfa= function(req,res,next){
+const anaSayfa= function(req,res){
     res.render('anasayfa',
     {
         "baslik":"Anasayfa",
@@ -27,7 +25,7 @@ const anaSayfa= function(req,res,next){
         
     });
 }
-const mekanBilgisi= function(req, res,next){
+const mekanBilgisi= function(req, res){
     res.render('mekanbilgisi', {
         "baslik":"Mekan Bilgisi",
         "makanBaslik":"Starbucks",
@@ -71,7 +69,7 @@ const mekanBilgisi= function(req, res,next){
   } );
 }
 
-const yorumEkle= function(req,res,){
+const yorumEkle= function(req,res){
     res.render('yorumekle',{"title" :"Yorum Ekle"});
 }
 module.exports={
