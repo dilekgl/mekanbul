@@ -1,6 +1,6 @@
 var createError = require('http-errors');
-require("./app_api/models/db")
 var express = require('express');
+require("./app_api/models/db")
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -10,7 +10,6 @@ var usersRouter = require('./app_server/routes/users');
 var appRouter=require('./app_api/routes/index'); 
 
 var app = express();
-app.use("/api",appRouter)
 
 // view engine setup
 app.set('views', path.join(__dirname,'app_server', 'views'));
@@ -19,6 +18,7 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use("/api",appRouter)
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
