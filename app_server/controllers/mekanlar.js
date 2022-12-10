@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const axios=require("axios");
 var apiSecenekleri={
-  sunucu:"http://localhost:3000",
+  sunucu:"https://mekanbul.dilekgul.repl.co",
   apiYolu:"/api/mekanlar/"
 }
 var mesafeyiFormatla=function(mesafe){
@@ -24,17 +24,17 @@ if(!(mekanListesi instanceof Array )){
   mekanListesi=[];
 }else{
 if(!mekanListesi.length){
-  mesaj="civardaki herhangi bir mekan yok";
+  mesaj="civarda herhangi bir mekan yok";
 }
 }
 res.render("anasayfa",{
-"baslik":"Anasayfa",
-"sayfaBaslik":{
-  "siteAd":"Mekanbul",
-  "slogan":"Mekanları Keşfet"
-},
-mekanlar:mekanListesi,
-mesaj:mesaj
+    "baslik":"Anasayfa",
+    "sayfaBaslik":{
+    "siteAd":"Mekanbul",
+    "slogan":"Mekanları Keşfet"
+    },
+    mekanlar:mekanListesi,
+    mesaj:mesaj,
 });
 }
    const anaSayfa=function(req, res) {
@@ -84,21 +84,48 @@ const mekanBilgisi=function(req,res){
   axios
    .get(apiSecenekleri.sunucu+apiSecenekleri.apiYolu+req.params.mekanid)
    .then(function(response){
-       detaySayfasiOlustur(res,response.data);
+      req.session.mekanAdi=response.data.ad;
+      detaySayfasiOlustur(res,response.data);
    })
    .catch(function(hata){
        hataGoster(res,hata);
-   });
+   })
 };
 
-   const yorumEkle=function(req, res, next) {
-    res.render('yorumekle', { title: 'Yorum Ekle' });
-   }
+const yorumEkle = function(req, res,next) {
+  var mekanAdi=req.session.mekanAdi;
+  mekanid=req.params.mekanid;
+  if(!mekanAdi){
+    res.redirect("/mekan/"+mekanid);
+  } else 
+    res.render('yorumekle',{baslik:mekanAdi+" mekanına yorum ekle "});
+};
+const yorumumuEkle = function(req, res, next) {
+  var gonderilenYorum, mekanid;
+  mekanid = req.params.mekanid;
+  if (!req.body.adsoyad || !req.body.yorum) {
+    res.redirect("/mekan/" + mekanid + "/yorum/yeni?hata=evet");
+  } else {
+    gonderilenYorum = {
+      yorumYapan: req.body.adsoyad,
+      puan: req.body.puan,
+      yorumMetni: req.body.yorum
+    }
+    axios.post(apiSecenekleri.sunucu + apiSecenekleri.apiYolu + mekanid + "/yorumlar",
+      gonderilenYorum).then(function() {
+        res.redirect("/mekan/" + mekanid);
+      })
+
+  }
+};
 
 
    
    module.exports = {
     anaSayfa,
     mekanBilgisi,
-    yorumEkle
+    yorumEkle,
+    anaSayfaOlustur,
+    mesafeyiFormatla,
+    yorumumuEkle
    }
